@@ -5,6 +5,6 @@ module.exports = {
   db_user: "root",
   db_pass: "",
   db_poolsize: "100",
-  server_port: "3001",
+  server_port: "8080",
   jwt_secret: "AEECFEC7D424039CDBBFFBFF050ADE6BC4F8A8F83"
 };

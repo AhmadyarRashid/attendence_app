@@ -17,12 +17,12 @@ module.exports.login = function (req, res, next) {
       [mobile_no, password]
     )
       .then(rows => {
-          // TODO own code for login
-          if(rows.length > 0){
-            res.status(200).json(getSuccessResponse(rows));
-          }else{
-            res.status(200).json(getFailureResponse("Username and password are wrong"));
-          }
+        // TODO own code for login
+        if (rows.length > 0) {
+          res.status(200).json(getSuccessResponse(rows));
+        } else {
+          res.status(200).json(getFailureResponse("Username and password are wrong"));
+        }
       })
       .catch(err => {
         console.log("Error in UserController at authenticate function :");
@@ -36,7 +36,7 @@ module.exports.login = function (req, res, next) {
 };
 
 module.exports.register = function (req, res, next) {
-  const { name, email, mobile_no, password} = req.body;
+  const { name, email, mobile_no, password } = req.body;
   try {
     db.executeQuery("SELECT * FROM login WHERE mobile_no = ?", [mobile_no])
       .then(rows => {
@@ -46,7 +46,7 @@ module.exports.register = function (req, res, next) {
           // TODO
           db.executeQuery("INSERT into login (name, email, mobile_no, password) values (?,?,?,?)", [name, email, mobile_no, password])
             .then(response => {
-              if(response){
+              if (response) {
                 res.status(200).json(getSuccessResponse(response));
               }
             })
@@ -63,69 +63,67 @@ module.exports.register = function (req, res, next) {
 };
 
 module.exports.checkIn = function (req, res, next) {
-  const {user_id} = req.body;
-  const date = new Date();
-  const currentDate = date.getFullYear() + "-" + Number(date.getMonth() + 1) + "-" + date.getDate();
+  const { user_id, time, currentDate } = req.body;
+  console.log('check in ', user_id, time, currentDate);
   try {
     db.executeQuery("select * from attendence where user_id = ? and date =?", [user_id, currentDate])
       .then(rows => {
-        const time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        if(rows.length > 0){
+        if (rows.length > 0) {
           console.log(rows);
-          const {id, IN1, IN2, IN3, IN4, IN5, IN6} = rows[0];
-          if(IN1 == null){
-            db.executeQuery("update attendence set IN1 = ? where id = ?", [time , id])
+          const { id, IN1, IN2, IN3, IN4, IN5, IN6 } = rows[0];
+          if (IN1 == null) {
+            db.executeQuery("update attendence set IN1 = ? where id = ?", [time, id])
               .then(data => {
                 res.status(200).json(getSuccessResponse(data));
               })
               .catch(err => {
                 res.status(200).json(getFailureResponse("Some Network Issue"));
               })
-          }else if(IN2 == null){
-            db.executeQuery("update attendence set IN2 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(IN3 == null){
-            db.executeQuery("update attendence set IN3 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(IN4 == null){
-            db.executeQuery("update attendence set IN4 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(IN5 == null){
-            db.executeQuery("update attendence set IN5 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(IN6 == null){
-            db.executeQuery("update attendence set IN6 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else{
+          } else if (IN2 == null) {
+            db.executeQuery("update attendence set IN2 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (IN3 == null) {
+            db.executeQuery("update attendence set IN3 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (IN4 == null) {
+            db.executeQuery("update attendence set IN4 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (IN5 == null) {
+            db.executeQuery("update attendence set IN5 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (IN6 == null) {
+            db.executeQuery("update attendence set IN6 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else {
             res.status(200).json(getSuccessResponse("Your Check limit exceeded"));
           }
-        }else{
-          db.executeQuery("insert into attendence (user_id, date, IN1) values (?, ?, ?)" , [user_id, currentDate, time])
+        } else {
+          db.executeQuery("insert into attendence (user_id, date, IN1) values (?, ?, ?)", [user_id, currentDate, time])
             .then(rows => {
               res.status(200).json(getSuccessResponse(rows));
             })
@@ -141,68 +139,65 @@ module.exports.checkIn = function (req, res, next) {
 };
 
 module.exports.checkOut = function (req, res, next) {
-  const {user_id} = req.body;
-  const date = new Date();
-  const currentDate = date.getFullYear() + "-" + Number(date.getMonth() + 1) + "-" + date.getDate();
+  const { user_id, time, currentDate } = req.body;
   try {
     db.executeQuery("select * from attendence where user_id = ? and date =?", [user_id, currentDate])
       .then(rows => {
-        const time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        if(rows.length > 0){
-          const {id, OUT1, OUT2, OUT3, OUT4, OUT5, OUT6} = rows[0];
-          if(OUT1 == null){
-            db.executeQuery("update attendence set OUT1 = ? where id = ?", [time , id])
+        if (rows.length > 0) {
+          const { id, OUT1, OUT2, OUT3, OUT4, OUT5, OUT6 } = rows[0];
+          if (OUT1 == null) {
+            db.executeQuery("update attendence set OUT1 = ? where id = ?", [time, id])
               .then(data => {
                 res.status(200).json(getSuccessResponse(data));
               })
               .catch(err => {
                 res.status(200).json(getFailureResponse("Some Network Issue"));
               })
-          }else if(OUT2 == null){
-            db.executeQuery("update attendence set OUT2 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(OUT3 == null){
-            db.executeQuery("update attendence set OUT3 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(OUT4 == null){
-            db.executeQuery("update attendence set OUT4 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(OUT5 == null){
-            db.executeQuery("update attendence set OUT5 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else if(OUT6 == null){
-            db.executeQuery("update attendence set OUT6 = ? where id = ?", [time , id])
-            .then(data => {
-              res.status(200).json(getSuccessResponse(data));
-            })
-            .catch(err => {
-              res.status(200).json(getFailureResponse("Some Network Issue"));
-            })
-          }else{
+          } else if (OUT2 == null) {
+            db.executeQuery("update attendence set OUT2 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (OUT3 == null) {
+            db.executeQuery("update attendence set OUT3 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (OUT4 == null) {
+            db.executeQuery("update attendence set OUT4 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (OUT5 == null) {
+            db.executeQuery("update attendence set OUT5 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else if (OUT6 == null) {
+            db.executeQuery("update attendence set OUT6 = ? where id = ?", [time, id])
+              .then(data => {
+                res.status(200).json(getSuccessResponse(data));
+              })
+              .catch(err => {
+                res.status(200).json(getFailureResponse("Some Network Issue"));
+              })
+          } else {
             res.status(200).json(getSuccessResponse("Your Check limit exceeded"));
           }
-        }else{
-          db.executeQuery("insert into attendence (user_id, date, OUT1) values (?, ?, ?)" , [user_id, currentDate, time])
+        } else {
+          db.executeQuery("insert into attendence (user_id, date, OUT1) values (?, ?, ?)", [user_id, currentDate, time])
             .then(rows => {
               res.status(200).json(getSuccessResponse(rows));
             })
@@ -218,16 +213,28 @@ module.exports.checkOut = function (req, res, next) {
 };
 
 module.exports.getAllDataById = function (req, res, next) {
-  const {user_id} = req.body;
-  const date = new Date();
-  const currentDate = date.getFullYear() + "-" + Number(date.getMonth() + 1) + "-" + date.getDate();
+  const { user_id, currentDate } = req.body;
   try {
-    db.executeQuery("Select * from attendence where user_id=? and date=?", [
+    db.executeQuery("Select * from attendence where user_id=? and date= ?", [
       user_id, currentDate
     ])
       .then(rows => {
         if (rows.length > 0) {
-          res.status(200).json(getSuccessResponse(rows));
+          const data = rows[0];
+          let disable = 'checkOut';
+          let a = Object.entries(data);
+          for (item of a) {
+            if (item[1] == null && item[0].substring(0, 2) == 'IN') {
+              disable = 'checkIn';
+              break;
+            }
+            if (item[1] == null && item[0].substring(0, 2) == 'OU') {
+              disable = 'checkOut';
+              break;
+            }
+          }
+          // console.log('final --', disable)
+          res.status(200).json(getSuccessResponse({disable, rows}));
         } else {
           res.status(200).json(getFailureResponse("No data found"));
         }

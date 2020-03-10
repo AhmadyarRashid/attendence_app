@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const errorHandler = require("./helpers/error-handler");
 const responseHandler = require("./middlewares/response");
 const logger = require('./helpers/logger')('server.js');
+const path = require('path');
 
 // config, helpers & middleware
 const config = require("./config/config");
@@ -16,6 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(responseHandler);
+
+app.get('/' , (req, res, next) => {
+    res.send('Welcome to Attendence app');
+});
 
 /* registering routes */
 app.use("/api", require("./routes/index"));
