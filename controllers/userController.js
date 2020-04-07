@@ -248,3 +248,17 @@ module.exports.getAllDataById = function (req, res, next) {
     res.status(200).json(getFailureResponse());
   }
 };
+
+module.exports.getAllLocations = (req, res, next) => {
+  try{
+    db.executeQuery(
+      `select * from store_location`
+    ).then(resposne => {
+      res.status(200).json(getSuccessResponse(resposne));
+    }).catch(err => {
+      res.status(200).json(getFailureResponse('Failed to load'))
+    })
+  }catch(e){
+    res.status(200).json(getFailureResponse('Something went wrong'));
+  }
+}

@@ -8,5 +8,6 @@ router.post("/register", userController.register);
 router.post("/checkIn", userController.checkIn);
 router.post("/checkOut", userController.checkOut);
 router.post("/getAllDataById", userController.getAllDataById);
+router.post("/getAllLocations", userController.getAllLocations);
 
 module.exports = router;
