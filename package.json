@@ -27,6 +27,7 @@
     "express-jwt": "^5.3.1",
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.15.6",
+    "geolib": "^3.2.1",
     "helmet": "^3.15.1",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
