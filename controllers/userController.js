@@ -342,3 +342,18 @@ module.exports.getAllLocations = (req, res, next) => {
     res.status(200).json(getFailureResponse('Something went wrong'));
   }
 }
+
+module.exports.getDateFilter = (req, res, next) => {
+  const {user_id, fDate, tDate} = req.body;
+  try {
+    db.executeQuery(
+      `select * from attendence where date >= ? and date <= ? and user_id = ?`, [fDate, tDate, user_id]
+    ).then(rows => {
+      res.status(200).json(getSuccessResponse({rows}));
+    }).catch(err => {
+      res.status(200).json(getFailureResponse('Failed to load'))
+    })
+  } catch (e) {
+    res.status(200).json(getFailureResponse('Something went wrong'));
+  }
+}

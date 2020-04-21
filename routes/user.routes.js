@@ -9,5 +9,6 @@ router.post("/checkIn", userController.checkIn);
 router.post("/checkOut", userController.checkOut);
 router.post("/getAllDataById", userController.getAllDataById);
 router.post("/getAllLocations", userController.getAllLocations);
+router.post("/getDateFilter", userController.getDateFilter);
 
 module.exports = router;
