@@ -32,7 +32,8 @@ module.exports.login = function (req, res, next) {
 
                 // user is within radius or not 
                 if (withinRadius) {
-                  res.status(200).json(getSuccessResponse(rows))
+                  console.log('login response is ---', { rows, doc })
+                  res.status(200).json(getSuccessResponse({ rows, doc }))
                 } else {
                   res.status(200).json(getFailureResponse('You are not in radius of store'));
                 }
@@ -60,7 +61,8 @@ module.exports.login = function (req, res, next) {
 };
 
 module.exports.register = function (req, res, next) {
-  const { name, email, mobile_no, password } = req.body;
+  const { name, email, mobile_no, password, lati, longi } = req.body;
+  console.log('--- register ---', req.body);
   try {
     db.executeQuery("SELECT * FROM login WHERE mobile_no = ?", [mobile_no])
       .then(rows => {
@@ -68,7 +70,7 @@ module.exports.register = function (req, res, next) {
           res.status(200).json(getFailureResponse("mobile_no already exists."));
         } else {
           // TODO
-          db.executeQuery("INSERT into login (name, email, mobile_no, password) values (?,?,?,?)", [name, email, mobile_no, password])
+          db.executeQuery("INSERT into login (name, email, mobile_no, password, lati, longi) values (?,?,?,?,?,?)", [name, email, mobile_no, password, lati, longi])
             .then(response => {
               if (response) {
                 res.status(200).json(getSuccessResponse(response));
@@ -204,7 +206,7 @@ module.exports.checkOut = function (req, res, next) {
               { latitude: parseFloat(storeDetails[0].leti), longitude: parseFloat(storeDetails[0].longi) },
               parseFloat(storeDetails[0].radius)
             );
-           
+
             if (withinRadius) {
               try {
                 db.executeQuery("select * from attendence where user_id = ? and date =?", [user_id, currentDate])
@@ -344,12 +346,12 @@ module.exports.getAllLocations = (req, res, next) => {
 }
 
 module.exports.getDateFilter = (req, res, next) => {
-  const {user_id, fDate, tDate} = req.body;
+  const { user_id, fDate, tDate } = req.body;
   try {
     db.executeQuery(
       `select * from attendence where date >= ? and date <= ? and user_id = ?`, [fDate, tDate, user_id]
     ).then(rows => {
-      res.status(200).json(getSuccessResponse({rows}));
+      res.status(200).json(getSuccessResponse({ rows }));
     }).catch(err => {
       res.status(200).json(getFailureResponse('Failed to load'))
     })
