@@ -24,7 +24,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "express-mysql-session": "^2.1.0",
     "express-session": "^1.15.6",
     "geolib": "^3.2.1",
