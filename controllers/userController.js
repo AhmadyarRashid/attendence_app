@@ -23,20 +23,21 @@ module.exports.login = function (req, res, next) {
           db.executeQuery(`select * from store_location where store_id = ?`, [rows[0].store_id])
             .then(doc => {
               if (doc.length > 0) {
+                res.status(200).json(getSuccessResponse({ rows, doc }))
                 // console.log('---- data ----', rows, doc, lat, lng)
-                let withinRadius = geolib.isPointWithinRadius(
-                  { latitude: parseFloat(lat), longitude: parseFloat(lng) },
-                  { latitude: parseFloat(doc[0].leti), longitude: parseFloat(doc[0].longi) },
-                  parseFloat(doc[0].radius)
-                );
+                // let withinRadius = geolib.isPointWithinRadius(
+                //   { latitude: parseFloat(lat), longitude: parseFloat(lng) },
+                //   { latitude: parseFloat(doc[0].leti), longitude: parseFloat(doc[0].longi) },
+                //   parseFloat(doc[0].radius)
+                // );
 
-                // user is within radius or not 
-                if (withinRadius) {
-                  console.log('login response is ---', { rows, doc })
-                  res.status(200).json(getSuccessResponse({ rows, doc }))
-                } else {
-                  res.status(200).json(getFailureResponse('You are not in radius of store'));
-                }
+                // // user is within radius or not 
+                // if (withinRadius) {
+                //   console.log('login response is ---', { rows, doc })
+                 
+                // } else {
+                //   res.status(200).json(getFailureResponse('You are not in radius of store'));
+                // }
 
               } else {
                 res.status(200).json(getFailureResponse("No store is assign to that user"));
