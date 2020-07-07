@@ -359,3 +359,19 @@ module.exports.getDateFilter = (req, res, next) => {
     res.status(200).json(getFailureResponse('Something went wrong'));
   }
 }
+
+module.exports.changePassword = (req, res, next) => {
+  const {user_id, newPassword} = req.body;
+
+  try{
+    db.executeQuery(
+      `update login set password = ? where id = ?`, [newPassword, user_id]
+    ).then(rows => {
+      res.status(200).json(getSuccessResponse({ rows }));
+    }).catch(err => {
+      res.status(200).json(getFailureResponse('Failed to load'))
+    })
+  }catch(e){
+    res.status(200).json(getFailureResponse('Something went wrong'));
+  }
+}

@@ -10,5 +10,6 @@ router.post("/checkOut", userController.checkOut);
 router.post("/getAllDataById", userController.getAllDataById);
 router.post("/getAllLocations", userController.getAllLocations);
 router.post("/getDateFilter", userController.getDateFilter);
+router.post("/changePassword", userController.changePassword);
 
 module.exports = router;
