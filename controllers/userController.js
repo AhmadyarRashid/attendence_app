@@ -112,7 +112,7 @@ module.exports.checkIn = function (req, res, next) {
                       console.log(rows);
                       const { id, IN1, IN2, IN3, IN4, IN5, IN6 } = rows[0];
                       if (IN1 == null) {
-                        db.executeQuery("update attendence set IN1 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN1 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -120,7 +120,7 @@ module.exports.checkIn = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (IN2 == null) {
-                        db.executeQuery("update attendence set IN2 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN2 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -128,7 +128,7 @@ module.exports.checkIn = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (IN3 == null) {
-                        db.executeQuery("update attendence set IN3 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN3 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -136,7 +136,7 @@ module.exports.checkIn = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (IN4 == null) {
-                        db.executeQuery("update attendence set IN4 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN4 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -144,7 +144,7 @@ module.exports.checkIn = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (IN5 == null) {
-                        db.executeQuery("update attendence set IN5 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN5 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -152,7 +152,7 @@ module.exports.checkIn = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (IN6 == null) {
-                        db.executeQuery("update attendence set IN6 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set IN6 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -163,7 +163,7 @@ module.exports.checkIn = function (req, res, next) {
                         res.status(200).json(getSuccessResponse("Your Check limit exceeded"));
                       }
                     } else {
-                      db.executeQuery("insert into attendence (user_id, date, IN1) values (?, ?, ?)", [user_id, currentDate, time])
+                      db.executeQuery("insert into attendence (user_id, date, IN1) values (?, ?, CURRENT_TIMESTAMP)", [user_id, currentDate])
                         .then(rows => {
                           res.status(200).json(getSuccessResponse(rows));
                         })
@@ -210,12 +210,12 @@ module.exports.checkOut = function (req, res, next) {
 
             if (withinRadius) {
               try {
-                db.executeQuery("select * from attendence where user_id = ? and date =?", [user_id, currentDate])
+                db.executeQuery("select * from attendence where user_id = ? and date = ?", [user_id, currentDate])
                   .then(rows => {
                     if (rows.length > 0) {
                       const { id, OUT1, OUT2, OUT3, OUT4, OUT5, OUT6 } = rows[0];
                       if (OUT1 == null) {
-                        db.executeQuery("update attendence set OUT1 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT1 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -223,7 +223,7 @@ module.exports.checkOut = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (OUT2 == null) {
-                        db.executeQuery("update attendence set OUT2 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT2 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -231,7 +231,7 @@ module.exports.checkOut = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (OUT3 == null) {
-                        db.executeQuery("update attendence set OUT3 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT3 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -239,7 +239,7 @@ module.exports.checkOut = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (OUT4 == null) {
-                        db.executeQuery("update attendence set OUT4 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT4 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -247,7 +247,7 @@ module.exports.checkOut = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (OUT5 == null) {
-                        db.executeQuery("update attendence set OUT5 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT5 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -255,7 +255,7 @@ module.exports.checkOut = function (req, res, next) {
                             res.status(200).json(getFailureResponse("Some Network Issue"));
                           })
                       } else if (OUT6 == null) {
-                        db.executeQuery("update attendence set OUT6 = ? where id = ?", [time, id])
+                        db.executeQuery("update attendence set OUT6 = CURRENT_TIMESTAMP where id = ?", [id])
                           .then(data => {
                             res.status(200).json(getSuccessResponse(data));
                           })
@@ -266,7 +266,7 @@ module.exports.checkOut = function (req, res, next) {
                         res.status(200).json(getSuccessResponse("Your Check limit exceeded"));
                       }
                     } else {
-                      db.executeQuery("insert into attendence (user_id, date, OUT1) values (?, ?, ?)", [user_id, currentDate, time])
+                      db.executeQuery("insert into attendence (user_id, date, OUT1) values (?, ?, CURRENT_TIMESTAMP)", [user_id, currentDate])
                         .then(rows => {
                           res.status(200).json(getSuccessResponse(rows));
                         })
